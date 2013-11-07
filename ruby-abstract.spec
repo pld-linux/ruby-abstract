@@ -1,15 +1,15 @@
-%define gem_name abstract
+%define pkgname abstract
 Summary:	Allows you to define an abstract method in Ruby
-Name:		ruby-%{gem_name}
+Name:		ruby-%{pkgname}
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	GPL v2 or Ruby
 Group:		Development/Languages
-URL:		http://rubyforge.org/projects/abstract
-Source0:	http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
+Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
 # Source0-md5:	ea26d93f0a47a530631da430c9e9b7e5
+URL:		http://rubyforge.org/projects/abstract
 BuildRequires:	rpm-rubyprov
-BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	rpmbuild(macros) >= 1.665
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -28,14 +28,18 @@ This package contains documentation for %{name}.
 %setup -q
 
 %build
+# write .gemspec
+%__gem_helper spec
+
 %if %{with tests}
 ruby test/test.rb
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{ruby_vendorlibdir}
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir}}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -44,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.txt ChangeLog
 %{ruby_vendorlibdir}/abstract.rb
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %if 0
 %files doc
