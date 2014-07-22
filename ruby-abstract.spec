@@ -2,7 +2,7 @@
 Summary:	Allows you to define an abstract method in Ruby
 Name:		ruby-%{pkgname}
 Version:	1.0.0
-Release:	2
+Release:	3
 License:	GPL v2 or Ruby
 Group:		Development/Languages
 Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
