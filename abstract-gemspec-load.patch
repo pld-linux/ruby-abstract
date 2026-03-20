@@ -1,0 +1,10 @@
+# Fix gemspec to return a Gem::Specification when loaded by RPMs rubygems generator.
+# Without this, dependency generation errors out on newer Ruby/RPM.
+--- a/abstract.gemspec
++++ b/abstract.gemspec
+@@ -46,3 +46,5 @@
+   Gem::Builder.new(spec).build
+ end
+ 
++
++spec

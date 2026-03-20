@@ -2,11 +2,12 @@
 Summary:	Allows you to define an abstract method in Ruby
 Name:		ruby-%{pkgname}
 Version:	1.0.0
-Release:	3
+Release:	4
 License:	GPL v2 or Ruby
 Group:		Development/Languages
 Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
 # Source0-md5:	ea26d93f0a47a530631da430c9e9b7e5
+Patch0:		abstract-gemspec-load.patch
 URL:		http://rubyforge.org/projects/abstract
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
@@ -25,11 +26,10 @@ Requires:	%{name} = %{version}-%{release}
 This package contains documentation for %{name}.
 
 %prep
-%setup -q
+%setup -q -n %{pkgname}-%{version}
+%patch -P 0 -p1
 
 %build
-# write .gemspec
-%__gem_helper spec
 
 %if %{with tests}
 ruby test/test.rb
@@ -39,7 +39,7 @@ ruby test/test.rb
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir}}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
-cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
+cp -p %{pkgname}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %clean
 rm -rf $RPM_BUILD_ROOT
